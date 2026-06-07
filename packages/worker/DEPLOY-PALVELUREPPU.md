@@ -11,6 +11,21 @@ oma Cloudflare-tili, oma Analytics Engine -data, oma worker + domain.
 `wrangler.toml` on gitignored — tämä dokumentti on sen kanoninen lähde. Salaisuudet
 asetetaan `wrangler secret put` -komennolla, eivät tiedostoon.
 
+## Tila (deployattu 2026-06-07)
+
+Worker on **live**: `analytiikka.palvelureppu.fi` (custom domain, sertti aktiivinen).
+Verifioitu: `/health`, `/config`, `/tracker.js` (200), `/track` (204 validi origin,
+403 väärä origin).
+
+- KV `SITE_CONFIG` namespace id: **`2bed91dd1e37478496b136273ec91774`**
+  (title `palvelureppu-analytiikka-site-config` — oma, ei jaettu muiden palveluiden kanssa)
+- Asetetut secretit: `QUERY_API_KEY` ✓, `CF_ACCOUNT_ID` ✓
+- **Puuttuu: `CF_API_TOKEN`** → `/query`-lukupolku ja dashboard eivät vielä toimi
+  (trackaus toimii silti). Luo dashboardissa
+  https://dash.cloudflare.com/profile/api-tokens → Custom token →
+  *Account > Account Analytics > Read* (Palvelureppu-tili) → aseta:
+  `echo '<token>' | npx wrangler secret put CF_API_TOKEN`. Tämän jälkeen `/health` → `healthy`.
+
 ## Kertaluontoinen pystytys
 
 Web-analytiikan minimaalinen jalanjälki: Analytics Engine luo datasetit
