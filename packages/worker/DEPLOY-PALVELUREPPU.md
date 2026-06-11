@@ -72,5 +72,17 @@ curl -H "X-API-Key: $QUERY_API_KEY" \
   "https://analytiikka.palvelureppu.fi/query?q=daily-views&period=7d&site=palvelureppu.fi"
 ```
 
-Dashboard (Flarelytics Astro) osoitetaan tähän workeriin `?worker=`-paramilla;
-myöhemmin oma Pages-deploy palvelureppu-tilille.
+## Dashboard
+
+Deployattu palvelureppu-tilin Cloudflare Pagesiin:
+**https://palvelureppu-analytiikka-dashboard.pages.dev/**
+
+Kirjautuminen (geneerinen — syötä kentät):
+- Worker URL: `https://analytiikka.palvelureppu.fi`
+- API key: `QUERY_API_KEY` (asetettu secret)
+
+Uudelleendeploy: `cd packages/dashboard && npx astro build && \
+  CLOUDFLARE_ACCOUNT_ID=abcb70ce41324ef39d54ee3f76fbf04e \
+  npx wrangler pages deploy dist --project-name palvelureppu-analytiikka-dashboard --branch main`
+
+Data näkyy vasta kun `CF_API_TOKEN` on korjattu (ks. yllä) — muuten `/query` → 502.
